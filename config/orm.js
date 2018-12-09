@@ -50,6 +50,15 @@ var orm = {
       cb(result);
     });
   },
+  user: function(idInput, cb) {
+    var queryString = "SELECT * FROM users WHERE id = " + idInput + ";";
+    connection.query(queryString, function(err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
   create: function(table, cols, vals, cb) {
     var queryString = "INSERT INTO " + table;
 

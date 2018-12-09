@@ -1,24 +1,18 @@
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
 $(function() {
-  $(".change-sleep").on("click", function(event) {
+  $(document).on("click", ".login", function(event) {
+    console.log("login clicked")
     var id = $(this).data("id");
-    var newSleep = $(this).data("newsleep");
 
-    var newSleepState = {
-      sleepy: newSleep
-    };
-
-    // Send the PUT request.
-    $.ajax("/api/cats/" + id, {
-      type: "PUT",
-      data: newSleepState
+    $.ajax("/userpage/" + id, {
+      type: "GET"
     }).then(
       function() {
-        console.log("changed sleep to", newSleep);
-        // Reload the page to get the updated list
-        location.reload();
+        console.log("Logging in as " + id);
       }
     );
+    
+    window.location.href='/userpage/' + id
   });
 
   $(".create-form").on("submit", function(event) {

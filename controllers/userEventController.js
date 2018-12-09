@@ -8,11 +8,15 @@ var userEvent = require("../models/userEvent.js");
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
   userEvent.allUsers(function(data) {
-    var usersObj = {
-      users: data
-    };
-    console.log(usersObj);
-    res.render("index", usersObj);
+    console.log(data);
+    res.render("index", { users: data });
+  });
+});
+
+router.get("/userpage/:id", function(req, res) {
+  userEvent.user(req.params.id, function(data) {
+    console.log(data);
+    res.render("userPortal", data[0]);
   });
 });
 
