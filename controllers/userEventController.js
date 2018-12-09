@@ -3,16 +3,16 @@ var express = require("express");
 var router = express.Router();
 
 // Import the model (cat.js) to use its database functions.
-var cat = require("../models/cat.js");
+var userEvent = require("../models/userEvent.js");
 
 // Create all our routes and set up logic within those routes where required.
 router.get("/", function(req, res) {
-  cat.all(function(data) {
-    var hbsObject = {
-      cats: data
+  userEvent.allUsers(function(data) {
+    var usersObj = {
+      users: data
     };
-    console.log(hbsObject);
-    res.render("index", hbsObject);
+    console.log(usersObj);
+    res.render("index", usersObj);
   });
 });
 
