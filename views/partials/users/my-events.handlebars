@@ -1,8 +1,8 @@
 <li>
 	{{title}}
-	<form action="/updateEvent/{{this.id}}" method="POST">
+	<form action="/event/{{id}}" method="POST">
 		<input name="newTitle" placeholder="Enter new title">
 		<button type='submit'>submit</button>
 	</form>
-	<button class="deleteEvent" data-id="{{this.id}}">Delete Event</button>
+	<button class="deleteEvent" data-id="{{id}}">Delete Event</button>
 </li>

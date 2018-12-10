@@ -29,7 +29,7 @@ var userEvent = {
     });
   },
   delete: function(condition, cb) {
-    orm.delete("cats", condition, function(res) {
+    orm.delete("events", condition, function(res) {
       cb(res);
     });
   }

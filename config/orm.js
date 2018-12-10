@@ -109,7 +109,7 @@ var orm = {
   },
   delete: function(table, condition, cb) {
     var queryString = "DELETE FROM " + table;
-    queryString += " WHERE ";
+    queryString += " WHERE id =";
     queryString += condition;
 
     connection.query(queryString, function(err, result) {
