@@ -52,6 +52,7 @@ var orm = {
   },
   user: function(idInput, cb) {
     var queryString = "SELECT * FROM users WHERE id = " + idInput + ";";
+    //SELECT * FROM users as u JOIN events as e on u.id = e.userid WHERE u.id = 1;
     connection.query(queryString, function(err, result) {
       if (err) {
         throw err;

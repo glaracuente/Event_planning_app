@@ -14,7 +14,7 @@ CREATE TABLE events
 (
 	id int NOT NULL AUTO_INCREMENT,
 	userid int NOT NULL,
-	name varchar(255) NOT NULL,
+	title varchar(255) NOT NULL,
 	from_date date NOT NULL,
 	to_date date NOT NULL,
 	votes text,
