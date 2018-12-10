@@ -12,6 +12,11 @@ var userEvent = {
       cb(res);
     });
   },
+  getUsersEvents: function(id, cb) {
+    orm.usersEvents(id, function(res) {
+      cb(res);
+    });
+  },
   // The variables cols and vals are arrays.
   create: function(cols, vals, cb) {
     orm.create("cats", cols, vals, function(res) {

@@ -14,9 +14,13 @@ router.get("/", function(req, res) {
 });
 
 router.get("/userpage/:id", function(req, res) {
-  userEvent.user(req.params.id, function(data) {
-    console.log(data);
-    res.render("userPortal", data[0]);
+  userEvent.getUsersEvents(req.params.id, function(data) {
+    var userEventsObj = {
+      allEvents: data,
+      singleUserEvent: data[0]
+    }
+    console.log(userEventsObj);
+    res.render("userPortal", userEventsObj);
   });
 });
 
