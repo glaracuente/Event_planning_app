@@ -1,8 +1,9 @@
 <li>
 	{{title}}
-	<form action="/event/{{id}}" method="POST">
-		<input name="newTitle" placeholder="Enter new title">
+	<form class="update-form" data-id="{{id}}" method="PUT">
+		<input name="newTitle" type="text" id="newTitle" placeholder="Enter new title">
 		<button type='submit'>submit</button>
 	</form>
+
 	<button class="deleteEvent" data-id="{{id}}">Delete Event</button>
 </li>

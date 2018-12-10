@@ -23,8 +23,8 @@ var userEvent = {
       cb(res);
     });
   },
-  update: function(objColVals, condition, cb) {
-    orm.update("cats", objColVals, condition, function(res) {
+  update: function(newTitle, condition, cb) {
+    orm.update("events", newTitle, condition, function(res) {
       cb(res);
     });
   },

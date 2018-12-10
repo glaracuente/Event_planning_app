@@ -15,22 +15,22 @@ $(function () {
     window.location.href = '/userpage/' + id
   });
 
-  $(".create-form").on("submit", function (event) {
+  $(".update-form").on("submit", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
-    var newCat = {
-      name: $("#ca").val().trim(),
-      sleepy: $("[name=sleepy]:checked").val().trim()
+    var id = $(this).data("id");
+
+    var newtitle = {
+      title: '"' + $("#newTitle").val().trim() + '"',
     };
 
-    // Send the POST request.
-    $.ajax("/api/cats", {
-      type: "POST",
-      data: newCat
+    $.ajax("/event/" + id, {
+      type: "PUT",
+      data: newtitle
     }).then(
       function () {
-        console.log("created new cat");
+        console.log("updating event " + id);
         // Reload the page to get the updated list
         location.reload();
       }
