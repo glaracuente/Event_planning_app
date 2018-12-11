@@ -19,7 +19,7 @@ var userEvent = {
   },
   // The variables cols and vals are arrays.
   create: function(cols, vals, cb) {
-    orm.create("cats", cols, vals, function(res) {
+    orm.create("events", cols, vals, function(res) {
       cb(res);
     });
   },

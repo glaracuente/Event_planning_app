@@ -24,16 +24,36 @@ router.get("/userpage/:id", function(req, res) {
   });
 });
 
-router.post("/api/cats", function(req, res) {
-  cat.create([
-    "name", "sleepy"
+// ======================================================================================================================
+
+router.post("/api/create_event/:id", function(req, res) {
+
+ 
+  
+
+  userEvent.create([
+    "userid", "title","from_date","to_date"
   ], [
-    req.body.name, req.body.sleepy
+    req.params.id, req.body.title, req.body.from_date, req.body.to_date
   ], function(result) {
-    // Send back the ID of the new quote
     res.json({ id: result.insertId });
   });
 });
+
+// ============================================================================================================================
+router.get("/new_event/:id", function(req, res) {
+  userEvent.user(req.params.id,function(result){
+    
+     var currentUser = {
+       id:result[0].id,
+       name:result[0].name
+     }
+
+     res.render("create",currentUser)
+    
+  })
+});
+// ============================================================================================================================
 
 router.put("/event/:id", function(req, res) {
   userEvent.update({

@@ -37,6 +37,59 @@ $(function () {
     );
   });
 
+  // ==========================================================
+
+  $(".createE").on("click", function(event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+    var id = $(".currentUser").data("id");
+
+    console.log(id);
+
+    
+
+    var newEvent = {
+      title:$("#event").val().trim(),
+      from_date: $("#startDate").val().trim(),
+      to_date:$("#endDate").val().trim(),
+    };
+
+    // Send the POST request.
+    $.ajax("/api/create_event/"+ id, {
+      type: "POST",
+      data: newEvent
+    }).then(
+      function() {
+        console.log("Event created");
+        // Reload the page to get the updated list
+        
+      }
+    );
+  });
+
+  // =========================================================
+  $("#new_event").on("click", function(event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+     var id = $("#currentUser").data("id")
+  
+    $.ajax("/new_event/" + id, {
+      type: "GET",
+      data:id
+    }).then(
+      function() {
+        console.log("Ready to create event");
+
+        window.location.href = '/new_event/' + id
+      
+      }
+    );
+  });
+
+
+  // ==========================================================
+
   $(document).on("click", ".deleteEvent", function (event) {
     console.log("delete event clicked")
     var id = $(this).data("id");
