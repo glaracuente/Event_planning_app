@@ -6,59 +6,63 @@ var router = express.Router();
 var userEvent = require("../models/userEvent.js");
 
 // Create all our routes and set up logic within those routes where required.
-router.get("/", function(req, res) {
-  userEvent.allUsers(function(data) {
-    console.log(data);
+router.get("/", function (req, res) {
+  userEvent.allUsers(function (data) {
+    //console.log(data);
     res.render("index", { users: data });
   });
 });
 
-router.get("/userpage/:id", function(req, res) {
-  userEvent.getUsersEvents(req.params.id, function(data) {
+router.get("/userpage/:id", function (req, res) {
+  userEvent.getUsersEvents(req.params.id, function (data) {
     var userEventsObj = {
       allEvents: data,
       singleUserEvent: data[0]
     }
-    console.log(userEventsObj);
+    //console.log(userEventsObj);
     res.render("userPortal", userEventsObj);
   });
 });
 
 // ======================================================================================================================
 
-router.post("/api/create_event/:id", function(req, res) {
-
- 
-  
-
+router.post("/api/create_event/:id", function (req, res) {
   userEvent.create([
-    "userid", "title","from_date","to_date"
+    "userid", "title", "from_date", "to_date"
   ], [
-    req.params.id, req.body.title, req.body.from_date, req.body.to_date
-  ], function(result) {
-    res.json({ id: result.insertId });
+      req.params.id, req.body.title, req.body.from_date, req.body.to_date
+    ], function (result) {
+      res.json({ id: result.insertId });
+    });
+});
+
+// ============================================================================================================================
+router.get("/new_event/:id", function (req, res) {
+  userEvent.user(req.params.id, function (result) {
+
+    var currentUser = {
+      id: result[0].id,
+      name: result[0].name
+    }
+
+    res.render("create", currentUser)
+  })
+});
+
+// ============================================================================================================================
+router.get("/vote/:id", function (req, res) {
+  userEvent.allEvents(function (data) {
+    console.log(data)
+    res.render("vote", { events: data })
   });
 });
 
 // ============================================================================================================================
-router.get("/new_event/:id", function(req, res) {
-  userEvent.user(req.params.id,function(result){
-    
-     var currentUser = {
-       id:result[0].id,
-       name:result[0].name
-     }
 
-     res.render("create",currentUser)
-    
-  })
-});
-// ============================================================================================================================
-
-router.put("/event/:id", function(req, res) {
+router.put("/event/:id", function (req, res) {
   userEvent.update({
     title: req.body.title
-  }, req.params.id, function(result) {
+  }, req.params.id, function (result) {
     if (result.changedRows == 0) {
       // If no rows were changed, then the ID must not exist, so 404
       return res.status(404).end();
@@ -68,8 +72,8 @@ router.put("/event/:id", function(req, res) {
   });
 });
 
-router.delete("/event/:id", function(req, res) {
-  userEvent.delete(req.params.id, function(result) {
+router.delete("/event/:id", function (req, res) {
+  userEvent.delete(req.params.id, function (result) {
     if (result.affectedRows == 0) {
       // If no rows were changed, then the ID must not exist, so 404
       return res.status(404).end();
