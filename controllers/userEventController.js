@@ -32,9 +32,9 @@ router.post("/api/create_event/:id", function(req, res) {
   
 
   userEvent.create([
-    "userid", "title","from_date","to_date"
+    "userid", "title","from_date","to_date","invites"
   ], [
-    req.params.id, req.body.title, req.body.from_date, req.body.to_date
+    req.params.id, req.body.title, req.body.from_date, req.body.to_date,JSON.stringify(req.body.invites)
   ], function(result) {
     res.json({ id: result.insertId });
   });
@@ -42,16 +42,38 @@ router.post("/api/create_event/:id", function(req, res) {
 
 // ============================================================================================================================
 router.get("/new_event/:id", function(req, res) {
-  userEvent.user(req.params.id,function(result){
-    
-     var currentUser = {
-       id:result[0].id,
-       name:result[0].name
-     }
+  userEvent.allUsers(function(data) {
+    var userIdStr = req.params.id;
+    var userIdInt = parseInt(userIdStr, 10);
 
-     res.render("create",currentUser)
-    
-  })
+    var users = {
+      currentUser:[],
+      others:[]
+
+    }
+  
+    for(i=0;i<data.length;i++){
+
+      if(data[i].id === userIdInt){
+        users.currentUser.push(data[i])
+
+        
+      }
+
+      else{
+       users.others.push(data[i]);
+      }
+    }
+
+    var pasthis = {
+    current: users.currentUser[0],
+     others:  users.others
+
+    }
+  
+
+    res.render("create", pasthis);
+  });
 });
 // ============================================================================================================================
 

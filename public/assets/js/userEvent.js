@@ -1,3 +1,14 @@
+// Function for calendar
+$( function() {
+  $( "#datepickerS" ).datepicker();
+} );
+
+$( function() {
+  $( "#datepickerE" ).datepicker();
+} );
+
+// ======================================================================
+
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
 $(function () {
   $(document).on("click", ".login", function (event) {
@@ -50,9 +61,14 @@ $(function () {
 
     var newEvent = {
       title:$("#event").val().trim(),
-      from_date: $("#startDate").val().trim(),
-      to_date:$("#endDate").val().trim(),
+      from_date: $(".startDate").val().trim(),
+      to_date:$(".endDate").val().trim(),
+      invites:[]
     };
+
+    
+   $(".form-check-input:checkbox:checked").each(function(){ newEvent.invites.push($(this).val()); });
+   console.log(newEvent.invites);
 
     // Send the POST request.
     $.ajax("/api/create_event/"+ id, {

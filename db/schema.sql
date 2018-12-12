@@ -18,5 +18,6 @@ CREATE TABLE events
 	from_date date NOT NULL,
 	to_date date NOT NULL,
 	votes text,
+    invites text,
 	PRIMARY KEY (id)
 );
