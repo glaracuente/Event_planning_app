@@ -38,6 +38,11 @@ var userEvent = {
       cb(res);
     });
   },
+  update: function(newTitle, condition, cb) {
+    orm.update("events", newTitle, condition, function(res) {
+      cb(res);
+    });
+  },
   updateEvent: function(newData, condition, cb) {
     orm.updateEvent(newData, condition, function(res) {
       cb(res);

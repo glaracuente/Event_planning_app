@@ -68,7 +68,7 @@ $(function () {
     event.preventDefault();
 
     var id = $(this).data("id");
-
+    console.log(id)
     var newtitle = {
       title: $("#newTitle").val().trim(),
     };
