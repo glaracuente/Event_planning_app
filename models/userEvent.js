@@ -17,6 +17,11 @@ var userEvent = {
       cb(res);
     });
   },
+  event: function(id, cb) {
+    orm.event(id, function(res) {
+      cb(res);
+    });
+  },
   getUsersEvents: function(id, cb) {
     orm.usersEvents(id, function(res) {
       cb(res);
@@ -28,8 +33,13 @@ var userEvent = {
       cb(res);
     });
   },
-  update: function(newTitle, condition, cb) {
-    orm.update("events", newTitle, condition, function(res) {
+  createVote: function(voteData, userid, eventid, cb) {
+    orm.createVote(voteData, userid, eventid, function(res) {
+      cb(res);
+    });
+  },
+  updateEvent: function(newData, condition, cb) {
+    orm.updateEvent(newData, condition, function(res) {
       cb(res);
     });
   },
@@ -37,7 +47,10 @@ var userEvent = {
     orm.delete("events", condition, function(res) {
       cb(res);
     });
-  }
+  },
+  deleteVote: function(userid, eventid) {
+    orm.deleteVote(userid, eventid);
+  },
 };
 
 // Export the database functions for the controller.

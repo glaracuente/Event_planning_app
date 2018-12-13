@@ -41,35 +41,44 @@ function objToSql(ob) {
 
 // Object for all our SQL statement functions.
 var orm = {
-  all: function(tableInput, cb) {
+  all: function (tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
       cb(result);
     });
   },
-  user: function(idInput, cb) {
+  user: function (idInput, cb) {
     var queryString = "SELECT * FROM users WHERE id = " + idInput + ";";
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
       cb(result);
     });
   },
-  usersEvents: function(idInput, cb) {
+  event: function (idInput, cb) {
+    var queryString = "SELECT * FROM events WHERE id = " + idInput + ";";
+    connection.query(queryString, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
+  usersEvents: function (idInput, cb) {
     var queryString = "SELECT * FROM users as u JOIN events as e on u.id = e.userid WHERE u.id = " + idInput + ";";
-    
-    connection.query(queryString, function(err, result) {
+
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
       cb(result);
     });
   },
-  create: function(table, cols, vals, cb) {
+  create: function (table, cols, vals, cb) {
     var queryString = "INSERT INTO " + table;
 
     queryString += " (";
@@ -81,7 +90,25 @@ var orm = {
 
     console.log(queryString);
 
-    connection.query(queryString, vals, function(err, result) {
+    connection.query(queryString, vals, function (err, result) {
+      if (err) {
+        throw err;
+      }
+
+      cb(result);
+    });
+  },
+  createVote: function (voteData, userid, eventid, cb) {
+    var queryString = "INSERT INTO votes (userid, eventid, dates)";
+    queryString += " VALUES(" + userid;
+    queryString += ", " + eventid;
+    queryString += ", '" + voteData.votes;
+    queryString += "');"
+
+    console.log(queryString); 
+
+
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
@@ -90,15 +117,15 @@ var orm = {
     });
   },
   // An example of objColVals would be {name: panther, sleepy: true}
-  update: function(table, objColVals, condition, cb) {
-    var queryString = "UPDATE " + table;
-    queryString += " SET"; //title=
+  updateEvent: function (objColVals, condition, cb) {
+    var queryString = "UPDATE events";
+    queryString += " SET "; //title=
     queryString += objToSql(objColVals);
     queryString += " WHERE id=";
     queryString += condition;
 
     console.log(queryString);
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
@@ -106,17 +133,29 @@ var orm = {
       cb(result);
     });
   },
-  delete: function(table, condition, cb) {
+  delete: function (table, condition, cb) {
     var queryString = "DELETE FROM " + table;
     queryString += " WHERE id =";
     queryString += condition;
 
-    connection.query(queryString, function(err, result) {
+    connection.query(queryString, function (err, result) {
       if (err) {
         throw err;
       }
 
       cb(result);
+    });
+  },
+  deleteVote: function (userid, eventid) {
+    var queryString = "DELETE FROM votes";
+    queryString += " WHERE userid = " + userid;
+    queryString += " AND eventid = " + eventid;
+    console.log(queryString);
+
+    connection.query(queryString, function (err, result) {
+      if (err) {
+        throw err;
+      }
     });
   }
 };

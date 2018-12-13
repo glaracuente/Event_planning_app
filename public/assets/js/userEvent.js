@@ -2,20 +2,30 @@
 $(function () {
 
   function renderCheckboxes() {
-    var from = $(".date_box_div").data('fromdate').split(' ')[2]
-    var to = $(".date_box_div").data('todate').split(' ')[2]
-    from = parseInt(from)
-    to = parseInt(to)
 
-    var checkboxesArray = [];
-    for (var i = from; i <= to; i++) {
-      var checkbox = $("<div>")
-      checkbox.html('<input type="checkbox" name="vehicle1" value="Bike">' + i + '<br></br>')
-      checkboxesArray.push(checkbox)
-    }
+    for (var x = 0; x < 100; x++) {
+      var divname = "#date_box_div_" + x;
 
-    for (var i = 0; i < checkboxesArray.length; i++) {
-      $(".date_box_div").append(checkboxesArray[i])
+      if ($(divname).length === 0) {
+        continue;
+      }
+      var thisdiv = $(divname)
+      var from = thisdiv.data('fromdate').split(' ')[2]
+      var to = thisdiv.data('todate').split(' ')[2]
+
+      from = parseInt(from)
+      to = parseInt(to)
+
+      var checkboxesArray = [];
+      for (var i = from; i <= to; i++) {
+        var checkbox = $("<div>")
+        checkbox.html('<input type="checkbox" name="vote" value="' + i + '">' + i)
+        checkboxesArray.push(checkbox)
+      }
+
+      for (var i = 0; i < checkboxesArray.length; i++) {
+        thisdiv.prepend(checkboxesArray[i])
+      }
     }
   }
 
@@ -60,7 +70,7 @@ $(function () {
     var id = $(this).data("id");
 
     var newtitle = {
-      title: '"' + $("#newTitle").val().trim() + '"',
+      title: $("#newTitle").val().trim(),
     };
 
     $.ajax("/event/" + id, {
@@ -73,6 +83,38 @@ $(function () {
         location.reload();
       }
     );
+  });
+
+  // ==========================================================
+  $(".submit-vote").on("submit", function (event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+    var arrayOfDates = [];
+    $("input:checkbox[name=vote]:checked").each(function () {
+      arrayOfDates.push($(this).val());
+    });
+
+    var dates = JSON.stringify(arrayOfDates)
+    var eventid = $(".submit-vote").data('eventid')
+    var userid = $(".submit-vote").data('userid')
+    
+    var vote = {
+      votes: dates
+    };
+    
+    $.ajax("/vote/" + userid + "/" + eventid, {
+      type: "PUT",
+      data: vote
+    }).then(
+      function () {
+        console.log("User " + userid + " is voting on event " + eventid);
+        // Reload the page to get the updated list
+        //location.reload();
+      }
+    );
+
+
   });
 
   // ==========================================================

@@ -50,20 +50,24 @@ router.get("/new_event/:id", function (req, res) {
 });
 
 // ============================================================================================================================
-router.get("/vote/:id", function (req, res) {
-  userEvent.allEvents(function (data) {
-    console.log(data)
-    res.render("vote", { events: data })
+router.get("/vote/:userid/:eventid", function (req, res) { //Fifer button needs to ref this link
+  userEvent.event(req.params.eventid, function (data) {
+    var voteObj = {
+      event: data[0],
+      userid: req.params.userid,
+    }
+
+    res.render("vote", voteObj)
   });
 });
 
 // ============================================================================================================================
 
-router.put("/event/:id", function (req, res) {
-  userEvent.update({
-    title: req.body.title
-  }, req.params.id, function (result) {
-    if (result.changedRows == 0) {
+router.put("/vote/:userid/:eventid", function (req, res) {
+  userEvent.deleteVote(req.params.userid, req.params.eventid);
+
+  userEvent.createVote(req.body, req.params.userid, req.params.eventid, function (result) {
+    if (result.affectedRows == 0) {
       // If no rows were changed, then the ID must not exist, so 404
       return res.status(404).end();
     } else {
