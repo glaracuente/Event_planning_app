@@ -76,10 +76,21 @@ router.put("/vote/:userid/:eventid", function (req, res) {
   });
 });
 
-router.put("/event/:id", function(req, res) {
+
+router.get("/votes/:eventid", function (req, res) {
+  userEvent.getVotesForEvent(req.params.eventid, function (data) {
+    var votes = {
+      votes: data,
+      eventid: req.params.eventid
+    }
+    res.render("votes", votes)
+  });
+});
+
+router.put("/event/:id", function (req, res) {
   userEvent.update({
     title: req.body.title
-  }, req.params.id, function(result) {
+  }, req.params.id, function (result) {
     if (result.changedRows == 0) {
       // If no rows were changed, then the ID must not exist, so 404
       return res.status(404).end();

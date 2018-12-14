@@ -68,6 +68,15 @@ var orm = {
       cb(result);
     });
   },
+  getVotesForEvent: function (eventid, cb) {
+    var queryString = "SELECT * FROM votes WHERE eventid = " + eventid + ";";
+    connection.query(queryString, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
   usersEvents: function (idInput, cb) {
     var queryString = "SELECT * FROM users as u JOIN events as e on u.id = e.userid WHERE u.id = " + idInput + ";";
 

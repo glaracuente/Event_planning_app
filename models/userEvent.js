@@ -27,6 +27,12 @@ var userEvent = {
       cb(res);
     });
   },
+  getVotesForEvent: function(eventid, cb) {
+    orm.getVotesForEvent(eventid, function(res) {
+      cb(res);
+    });
+  },
+
   // The variables cols and vals are arrays.
   create: function(cols, vals, cb) {
     orm.create("events", cols, vals, function(res) {
