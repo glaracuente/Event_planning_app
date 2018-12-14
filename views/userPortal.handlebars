@@ -2,6 +2,7 @@
 
 
 
+
 <button  id="new_event">Create Event</button>
 
 
@@ -10,3 +11,15 @@
     {{> users/my-events}}
   {{/each}}
 </ul>
+
+
+You have been invited to the following events:
+
+<ul>
+  {{#each allEvents}}
+    {{> users/pending_events}}
+  {{/each}}
+</ul>
+
+
+

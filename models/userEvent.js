@@ -7,6 +7,11 @@ var userEvent = {
       cb(res);
     });
   },
+  allEvents: function(cb) {
+    orm.all("events", function(res) {
+      cb(res);
+    });
+  },
   user: function(id, cb) {
     orm.user(id, function(res) {
       cb(res);
