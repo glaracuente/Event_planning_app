@@ -1,25 +1,27 @@
 <h1 id="currentUser" data-id={{userid}}> User {{userid}}  Portal</h1><br>
 
+<button id="new_event"><strong>Create Event</strong></button>
 
-<button id="new_event">Create Event</button>
+<br>
+<br>
 
-<button class="vote_button" data-id="{{userid}}">Vote on Events</button>
+
+<strong>You have been invited to the following events (Click an event to change your vote):</strong>
+
+<!-- Need home button -->
+{{#each invitedEvents}}
+<br> <!-- NEED data-eventid="NEED THIS PASSED" -->
+<button class="vote_button" data-id="{{userid}}">{{this.[0]}}</button> 
+<br>
+{{this.[1]}}
+<br>
+<br>
+{{/each}}
+
+<strong>Update/Delete events that your've created:</strong>
 
 <ul>
   {{#each myEvents}}
   {{> users/my-events}}
   {{/each}}
 </ul>
-
-
-You have been invited to the following events:
-
-<!-- Need home button -->
-{{#each invitedEvents}}
-<br>
-{{this.[0]}} <!--This is the event name...should be a button that you can click on to vote -->
-<br>
-{{this.[1]}}
-<br>
-<br>
-{{/each}}
