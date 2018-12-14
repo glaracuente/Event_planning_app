@@ -221,7 +221,6 @@ $(function () {
   $("#new_event").on("click", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
-    console.log("gg")
 
     var id = $("#currentUser").data("id")
     console.log(id)

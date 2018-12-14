@@ -14,28 +14,55 @@ router.get("/", function (req, res) {
 });
 
 router.get("/userpage/:id", function (req, res) {
-  //getVotesForSingleEvent
-  userEvent.getUsersEvents(req.params.id, function (data) {
+  userEvent.getUsersEvents(req.params.id, function (myevents) {
 
-    var allDates = [];
-    data.forEach(function (event) {
-      var quoted_title = '"' + event.title + '"';
-      userEvent.getVotesForSingleEvent(quoted_title, function (votedata) {
-        votedata.forEach(function (singleUserVoteData) {
-          allDates = allDates.concat(singleUserVoteData.dates)
+    var invitedEventTitles = [];
+    userEvent.allEvents(function (data) {
+      data.forEach(function (event) {
+        if (event.invites.indexOf(req.params.id) !== -1) {
+          invitedEventTitles.push(event.title)
+        }
+      })
+
+      var counter = 0
+      var invitedEventsArray = []
+      invitedEventTitles.forEach(function (eventTitle) {
+        var quoted_title = '"' + eventTitle + '"';
+        userEvent.getVotesForSingleEvent(quoted_title, function (votedata) {
+          var allDates = [];
+          votedata.forEach(function (singleUserVoteData) {
+            allDates = allDates.concat(JSON.parse(singleUserVoteData.dates))
+          });
+
+          var votes = {};
+
+          for (var i = 0; i < allDates.length; ++i) {
+            if (!votes[allDates[i]])
+              votes[allDates[i]] = 0;
+            ++votes[allDates[i]];
+          }
+
+          voteString = ""
+          for (var key in votes) {
+            voteString = voteString + '\n' + key + "th: " + votes[key] + " people"
+          }
+
+          thisinvitedEventArray = [quoted_title, voteString]
+          invitedEventsArray.push(thisinvitedEventArray)
+       
+          var userEventsObj = {
+            myEvents: myevents,
+            userid: req.params.id,
+            invitedEvents: invitedEventsArray
+          }
+          counter++; //SUUUPER HACKY
+
+          if (counter === invitedEventTitles.length) {
+            res.render("userPortal", userEventsObj); 
+          }
         });
-        console.log(allDates)
       });
     });
-
-    var userEventsObj = {
-      allEvents: data,
-      singleUserEvent: data[0]
-      //voteData = votedata
-    }
-    console.log(data[0])
-
-    res.render("userPortal", userEventsObj);
   });
 });
 

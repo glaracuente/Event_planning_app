@@ -1,24 +1,25 @@
-<h1 id="currentUser" data-id={{singleUserEvent.userid}}  > {{singleUserEvent.name}}  Portal</h1><br>
+<h1 id="currentUser" data-id={{userid}}> User {{userid}}  Portal</h1><br>
 
 
-<button  id="new_event">Create Event</button>
+<button id="new_event">Create Event</button>
 
-<button class="vote_button" data-id="{{singleUserEvent.userid}}">Vote on Events</button>
+<button class="vote_button" data-id="{{userid}}">Vote on Events</button>
 
 <ul>
-  {{#each allEvents}}
-    {{> users/my-events}}
+  {{#each myEvents}}
+  {{> users/my-events}}
   {{/each}}
 </ul>
 
 
 You have been invited to the following events:
 
-<ul>
-  {{#each allEvents}}
-    {{> users/pending_events}}
-  {{/each}}
-</ul>
-
-
-
+<!-- Need home button -->
+{{#each invitedEvents}}
+<br>
+{{this.[0]}} <!--This is the event name...should be a button that you can click on to vote -->
+<br>
+{{this.[1]}}
+<br>
+<br>
+{{/each}}
