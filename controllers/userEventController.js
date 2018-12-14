@@ -14,28 +14,33 @@ router.get("/", function(req, res) {
 });
 
 router.get("/userpage/:id", function(req, res) {
+  userEvent.user(req.params.id,function(current){
 userEvent.getUsersEvents(req.params.id, function(data) {
   userEvent.allEvents(function(events){
     otherEvents.push(events);
 
   
   })
-  var otherEvents = [];
+   var otherEvents = [];
+  
+  
   for(i=0;i<otherEvents.length;i++){
     if(otherEvents[i] !== req.params.id){
       otherEvents.splice(i,1);
 
-    }
-  }
+    }}
     var userEventsObj = {
       allEvents: data,
       singleUserEvent: data[0],
-      others:otherEvents
+      others:otherEvents,
+      curr:current[0]
       
     }
+    
     console.log(userEventsObj);
     res.render("userPortal", userEventsObj);
   });
+});
 });
 
 // ======================================================================================================================
