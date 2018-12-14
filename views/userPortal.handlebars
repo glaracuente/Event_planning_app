@@ -1,9 +1,9 @@
-<h1 id="currentUser" data-id={{curr.id}}  > {{curr.name}}  Portal</h1><br>
+<h1 id="currentUser" data-id={{singleUserEvent.userid}}  > {{singleUserEvent.name}}  Portal</h1><br>
 
 
 <button  id="new_event">Create Event</button>
 
-<button class="vote_button" data-id="{{singleUserEvent.id}}">Vote on Events</button>
+<button class="vote_button" data-id="{{singleUserEvent.userid}}">Vote on Events</button>
 
 <ul>
   {{#each allEvents}}

@@ -13,48 +13,42 @@ router.get("/", function (req, res) {
   });
 });
 
-//<<<<<<< HEAD
 router.get("/userpage/:id", function (req, res) {
+  //getVotesForSingleEvent
   userEvent.getUsersEvents(req.params.id, function (data) {
-    userEvent.user(req.params.id, function (current) {
-      userEvent.allEvents(function (events) {
-        otherEvents.push(events);
 
-
-      })
-      var otherEvents = [];
-
-
-      for (i = 0; i < otherEvents.length; i++) {
-        if (otherEvents[i] !== req.params.id) {
-          otherEvents.splice(i, 1);
-
-        }
-      }
-
-      var userEventsObj = {
-        allEvents: data,
-        singleUserEvent: data[0],
-        others: otherEvents,
-        curr: current[0]
-
-      }
-      console.log(userEventsObj);
-      res.render("userPortal", userEventsObj);
+    var allDates = [];
+    data.forEach(function (event) {
+      var quoted_title = '"' + event.title + '"';
+      userEvent.getVotesForSingleEvent(quoted_title, function (votedata) {
+        votedata.forEach(function (singleUserVoteData) {
+          allDates = allDates.concat(singleUserVoteData.dates)
+        });
+        console.log(allDates)
+      });
     });
+
+    var userEventsObj = {
+      allEvents: data,
+      singleUserEvent: data[0]
+      //voteData = votedata
+    }
+    console.log(data[0])
+
+    res.render("userPortal", userEventsObj);
   });
 });
 
 // ======================================================================================================================
 
-router.post("/api/create_event/:id", function(req, res) {
+router.post("/api/create_event/:id", function (req, res) {
   userEvent.create([
-    "userid", "title","from_date","to_date","invites"
+    "userid", "title", "from_date", "to_date", "invites"
   ], [
-    req.params.id, req.body.title, req.body.from_date, req.body.to_date,JSON.stringify(req.body.invites)
-  ], function(result) {
-    res.json({ id: result.insertId });
-  });
+      req.params.id, req.body.title, req.body.from_date, req.body.to_date, JSON.stringify(req.body.invites)
+    ], function (result) {
+      res.json({ id: result.insertId });
+    });
 });
 
 // ============================================================================================================================

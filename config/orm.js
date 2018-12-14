@@ -39,6 +39,9 @@ function objToSql(ob) {
   return arr.toString();
 }
 
+
+
+
 // Object for all our SQL statement functions.
 var orm = {
   all: function (tableInput, cb) {
@@ -68,6 +71,15 @@ var orm = {
       cb(result);
     });
   },
+  getVotesForSingleEvent: function (eventTitle, cb) {
+    var queryString = "SELECT title,dates FROM events as e JOIN votes as v on e.id = v.eventid WHERE e.title = " + eventTitle + ";";
+    connection.query(queryString, function (err, result) {
+      if (err) {
+        throw err;
+      }
+      cb(result);
+    });
+  },
   getVotesForEvent: function (eventid, cb) {
     var queryString = "SELECT * FROM votes WHERE eventid = " + eventid + ";";
     connection.query(queryString, function (err, result) {
@@ -77,7 +89,7 @@ var orm = {
       cb(result);
     });
   },
-  usersEvents: function (idInput, cb) {
+  getUsersEvents: function (idInput, cb) {
     var queryString = "SELECT * FROM users as u JOIN events as e on u.id = e.userid WHERE u.id = " + idInput + ";";
 
     connection.query(queryString, function (err, result) {

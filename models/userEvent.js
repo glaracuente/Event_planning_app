@@ -23,7 +23,12 @@ var userEvent = {
     });
   },
   getUsersEvents: function(id, cb) {
-    orm.usersEvents(id, function(res) {
+    orm.getUsersEvents(id, function(res) {
+      cb(res);
+    });
+  },
+  getVotesForSingleEvent: function(eventTitle, cb) {
+    orm.getVotesForSingleEvent(eventTitle, function(res) {
       cb(res);
     });
   },
