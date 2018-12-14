@@ -13,40 +13,84 @@ router.get("/", function (req, res) {
   });
 });
 
+//<<<<<<< HEAD
 router.get("/userpage/:id", function (req, res) {
   userEvent.getUsersEvents(req.params.id, function (data) {
-    var userEventsObj = {
-      allEvents: data,
-      singleUserEvent: data[0]
-    }
-    //console.log(userEventsObj);
-    res.render("userPortal", userEventsObj);
+    userEvent.user(req.params.id, function (current) {
+      userEvent.allEvents(function (events) {
+        otherEvents.push(events);
+
+
+      })
+      var otherEvents = [];
+
+
+      for (i = 0; i < otherEvents.length; i++) {
+        if (otherEvents[i] !== req.params.id) {
+          otherEvents.splice(i, 1);
+
+        }
+      }
+
+      var userEventsObj = {
+        allEvents: data,
+        singleUserEvent: data[0],
+        others: otherEvents,
+        curr: current[0]
+
+      }
+      console.log(userEventsObj);
+      res.render("userPortal", userEventsObj);
+    });
   });
 });
 
 // ======================================================================================================================
 
-router.post("/api/create_event/:id", function (req, res) {
+router.post("/api/create_event/:id", function(req, res) {
   userEvent.create([
-    "userid", "title", "from_date", "to_date"
+    "userid", "title","from_date","to_date","invites"
   ], [
-      req.params.id, req.body.title, req.body.from_date, req.body.to_date
-    ], function (result) {
-      res.json({ id: result.insertId });
-    });
+    req.params.id, req.body.title, req.body.from_date, req.body.to_date,JSON.stringify(req.body.invites)
+  ], function(result) {
+    res.json({ id: result.insertId });
+  });
 });
 
 // ============================================================================================================================
 router.get("/new_event/:id", function (req, res) {
-  userEvent.user(req.params.id, function (result) {
+  userEvent.allUsers(function (data) {
+    var userIdStr = req.params.id;
+    var userIdInt = parseInt(userIdStr, 10);
 
-    var currentUser = {
-      id: result[0].id,
-      name: result[0].name
+    var users = {
+      currentUser: [],
+      others: []
+
     }
 
-    res.render("create", currentUser)
-  })
+    for (i = 0; i < data.length; i++) {
+
+      if (data[i].id === userIdInt) {
+        users.currentUser.push(data[i])
+
+
+      }
+
+      else {
+        users.others.push(data[i]);
+      }
+    }
+
+    var pasthis = {
+      current: users.currentUser[0],
+      others: users.others
+
+    }
+
+
+    res.render("create", pasthis);
+  });
 });
 
 // ============================================================================================================================
@@ -56,7 +100,7 @@ router.get("/vote/:userid/:eventid", function (req, res) { //Fifer button needs 
       event: data[0],
       userid: req.params.userid,
     }
-
+    console.log(voteObj)
     res.render("vote", voteObj)
   });
 });

@@ -1,8 +1,19 @@
+// Function for calendar
+$(function () {
+  $("#datepickerS").datepicker();
+});
+
+$(function () {
+  $("#datepickerE").datepicker();
+});
+
+// ======================================================================
+
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
 $(function () {
 
   function renderCheckboxes() {
-
+    console.log("render checkboxes")
     for (var x = 0; x < 100; x++) {
       var divname = "#date_box_div_" + x;
 
@@ -10,8 +21,8 @@ $(function () {
         continue;
       }
       var thisdiv = $(divname)
-      var from = thisdiv.data('fromdate').split(' ')[2]
-      var to = thisdiv.data('todate').split(' ')[2]
+      var from = thisdiv.data('fromdate').split('/')[1]
+      var to = thisdiv.data('todate').split('/')[1]
 
       from = parseInt(from)
       to = parseInt(to)
@@ -30,6 +41,7 @@ $(function () {
   }
 
   function tallyVotes() {
+    console.log("tally votes")
 
     var allDates = [];
     for (var x = 0; x < 100; x++) { //NEED TO CHANGE TO REALLY KNOW THE EVENTIDS AND USE THEM
@@ -76,147 +88,168 @@ $(function () {
     window.location.href = '/userpage/' + id
   });
 
-$(document).on("click", ".vote_button", function (event) {
-  // Make sure to preventDefault on a submit event.
-  event.preventDefault();
+  $(document).on("click", ".vote_button", function (event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
 
-  var id = $(this).data("id");
+    var id = $(this).data("id");
 
-  $.ajax("/vote/" + id, {
-    type: "GET",
-    data: id
-  }).then(
-    function () {
-      console.log("Taking user to vote page...");
-      window.location.href = '/vote/' + id
+    $.ajax("/vote/" + id, {
+      type: "GET",
+      data: id
+    }).then(
+      function () {
+        console.log("Taking user to vote page...");
+        window.location.href = '/vote/' + id
 
 
-    }
-  );
-});
-
-$(".update-form").on("submit", function (event) {
-  // Make sure to preventDefault on a submit event.
-  event.preventDefault();
-
-  var id = $(this).data("id");
-
-  var newtitle = {
-    title: $("#newTitle").val().trim(),
-  };
-
-  $.ajax("/event/" + id, {
-    type: "PUT",
-    data: newtitle
-  }).then(
-    function () {
-      console.log("updating event " + id);
-      // Reload the page to get the updated list
-      location.reload();
-    }
-  );
-});
-
-// ==========================================================
-$(".submit-vote").on("submit", function (event) {
-  // Make sure to preventDefault on a submit event.
-  event.preventDefault();
-
-  var arrayOfDates = [];
-  $("input:checkbox[name=vote]:checked").each(function () {
-    arrayOfDates.push($(this).val());
+      }
+    );
   });
 
-  var dates = JSON.stringify(arrayOfDates)
-  var eventid = $(".submit-vote").data('eventid')
-  var userid = $(".submit-vote").data('userid')
+  $(".update-form").on("submit", function (event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
 
-  var vote = {
-    votes: dates
-  };
+    var id = $(this).data("id");
 
-  $.ajax("/vote/" + userid + "/" + eventid, {
-    type: "PUT",
-    data: vote
-  }).then(
-    function () {
-      console.log("User " + userid + " is voting on event " + eventid);
-      // Reload the page to get the updated list
-      //location.reload();
-    }
-  );
+    var newtitle = {
+      title: $("#newTitle").val().trim(),
+    };
 
+    $.ajax("/event/" + id, {
+      type: "PUT",
+      data: newtitle
+    }).then(
+      function () {
+        console.log("updating event " + id);
+        // Reload the page to get the updated list
+        location.reload();
+      }
+    );
+  });
 
-});
+  // ==========================================================
+  $(".submit-vote").on("submit", function (event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
 
-// ==========================================================
+    var arrayOfDates = [];
+    $("input:checkbox[name=vote]:checked").each(function () {
+      arrayOfDates.push($(this).val());
+    });
 
-$(".createE").on("click", function (event) {
-  // Make sure to preventDefault on a submit event.
-  event.preventDefault();
-  var id = $(".currentUser").data("id");
+    var dates = JSON.stringify(arrayOfDates)
+    var eventid = $(".submit-vote").data('eventid')
+    var userid = $(".submit-vote").data('userid')
 
-  console.log(id);
+    var vote = {
+      votes: dates
+    };
 
-
-
-  var newEvent = {
-    title: $("#event").val().trim(),
-    from_date: $("#startDate").val().trim(),
-    to_date: $("#endDate").val().trim(),
-  };
-
-  // Send the POST request.
-  $.ajax("/api/create_event/" + id, {
-    type: "POST",
-    data: newEvent
-  }).then(
-    function () {
-      console.log("Event created");
-      // Reload the page to get the updated list
-
-    }
-  );
-});
-
-// =========================================================
-$("#new_event").on("click", function (event) {
-  // Make sure to preventDefault on a submit event.
-  event.preventDefault();
-
-  var id = $("#currentUser").data("id")
-
-  $.ajax("/new_event/" + id, {
-    type: "GET",
-    data: id
-  }).then(
-    function () {
-      console.log("Ready to create event");
-
-      window.location.href = '/new_event/' + id
-    }
-  );
-});
+    $.ajax("/vote/" + userid + "/" + eventid, {
+      type: "PUT",
+      data: vote
+    }).then(
+      function () {
+        console.log("User " + userid + " is voting on event " + eventid);
+        // Reload the page to get the updated list
+        //location.reload();
+      }
+    );
 
 
-// ==========================================================
+  });
 
-$(document).on("click", ".deleteEvent", function (event) {
-  console.log("delete event clicked")
-  var id = $(this).data("id");
+  // ==========================================================
+ 
 
-  $.ajax("/event/" + id, {
-    type: "DELETE"
-  }).then(
-    function () {
-      console.log("Deleting event " + id);
-    }
-  );
 
-  location.reload()
-});
+  $(".form-check-input:checkbox:checked").each(function () {
+    newEvent.invites.push($(this).val());
+    console.log(newEvent.invites);
 
-renderCheckboxes()     //NEED TO MAKE THIS ONLY RUN WHEN VOTE PAGE LOADS
-tallyVotes()
+    // Send the POST request.
+    $.ajax("/api/create_event/" + id, {
+      type: "POST",
+      data: newEvent
+    }).then(
+      function () {
+        console.log("Event created");
+        // Reload the page to get the updated list
+
+      }
+    );
+  });
+
+
+  $(".createE").on("click", function (event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+    var id = $(".currentUser").data("id");
+
+    console.log(id);
+
+
+
+    var newEvent = {
+      title: $("#event").val().trim(),
+      from_date: $(".startDate").val().trim(),
+      to_date: $(".endDate").val().trim(),
+    };
+
+    // Send the POST request.
+    $.ajax("/api/create_event/" + id, {
+      type: "POST",
+      data: newEvent
+    }).then(
+      function () {
+        console.log("Event created");
+        // Reload the page to get the updated list
+
+      }
+    );
+  });
+
+  // =========================================================
+  $("#new_event").on("click", function (event) {
+    // Make sure to preventDefault on a submit event.
+    event.preventDefault();
+
+    var id = $("#currentUser").data("id")
+    console.log(id)
+
+    $.ajax("/new_event/" + id, {
+      type: "GET",
+      data: id
+    }).then(
+      function () {
+        console.log("Ready to create event");
+
+        window.location.href = '/new_event/' + id
+      }
+    );
+  });
+
+
+  // ==========================================================
+
+  $(document).on("click", ".deleteEvent", function (event) {
+    console.log("delete event clicked")
+    var id = $(this).data("id");
+
+    $.ajax("/event/" + id, {
+      type: "DELETE"
+    }).then(
+      function () {
+        console.log("Deleting event " + id);
+      }
+    );
+
+    location.reload()
+  });
+
+  renderCheckboxes()     //NEED TO MAKE THIS ONLY RUN WHEN VOTE PAGE LOADS
+  tallyVotes()
 
 });
