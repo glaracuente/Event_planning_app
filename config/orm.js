@@ -71,8 +71,8 @@ var orm = {
       cb(result);
     });
   },
-  getVotesForSingleEvent: function (eventTitle, cb) {
-    var queryString = "SELECT title,dates FROM events as e JOIN votes as v on e.id = v.eventid WHERE e.title = " + eventTitle + ";";
+  getVotesForSingleEvent: function (eventID, cb) {
+    var queryString = "SELECT e.id,title,dates FROM events as e JOIN votes as v on e.id = v.eventid WHERE e.id = " + eventID + ";";
     connection.query(queryString, function (err, result) {
       if (err) {
         throw err;

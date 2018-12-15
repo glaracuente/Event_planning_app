@@ -16,19 +16,23 @@ router.get("/", function (req, res) {
 router.get("/userpage/:id", function (req, res) {
   userEvent.getUsersEvents(req.params.id, function (myevents) {
 
-    var invitedEventTitles = [];
+    var invitedEventIDs = [];
     userEvent.allEvents(function (data) {
       data.forEach(function (event) {
         if (event.invites.indexOf(req.params.id) !== -1) {
-          invitedEventTitles.push(event.title)
+          invitedEventIDs.push(event.id)
         }
       })
 
       var counter = 0
       var invitedEventsArray = []
-      invitedEventTitles.forEach(function (eventTitle) {
-        var quoted_title = '"' + eventTitle + '"';
-        userEvent.getVotesForSingleEvent(quoted_title, function (votedata) {
+      invitedEventIDs.forEach(function (eventID) {
+        userEvent.getVotesForSingleEvent(eventID, function (votedata) {
+          if (counter === 0) {
+            var currentEventID = votedata[0].id
+            var currentEventTitle = votedata[0].title
+          }
+
           var allDates = [];
           votedata.forEach(function (singleUserVoteData) {
             allDates = allDates.concat(JSON.parse(singleUserVoteData.dates))
@@ -47,9 +51,9 @@ router.get("/userpage/:id", function (req, res) {
             voteString = voteString + '\n' + key + "th: " + votes[key] + " people"
           }
 
-          thisinvitedEventArray = [quoted_title, voteString]
+          thisinvitedEventArray = [currentEventTitle, currentEventID, voteString, req.params.id]
           invitedEventsArray.push(thisinvitedEventArray)
-       
+
           var userEventsObj = {
             myEvents: myevents,
             userid: req.params.id,
@@ -57,8 +61,10 @@ router.get("/userpage/:id", function (req, res) {
           }
           counter++; //SUUUPER HACKY
 
-          if (counter === invitedEventTitles.length) {
-            res.render("userPortal", userEventsObj); 
+          if (counter === invitedEventIDs.length - 1) {
+            console.log(invitedEventsArray)
+
+            res.render("userPortal", userEventsObj);
           }
         });
       });

@@ -27,8 +27,8 @@ var userEvent = {
       cb(res);
     });
   },
-  getVotesForSingleEvent: function(eventTitle, cb) {
-    orm.getVotesForSingleEvent(eventTitle, function(res) {
+  getVotesForSingleEvent: function(eventID, cb) {
+    orm.getVotesForSingleEvent(eventID, function(res) {
       cb(res);
     });
   },

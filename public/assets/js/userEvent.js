@@ -77,13 +77,13 @@ $(function () {
     console.log("login clicked")
     var id = $(this).data("id");
 
-    $.ajax("/userpage/" + id, {
-      type: "GET"
-    }).then(
-      function () {
+    //$.ajax("/userpage/" + id, {
+    //  type: "GET"
+    //}).then(
+    //  function () {
         console.log("Logging in as " + id);
-      }
-    );
+    //  }
+    //);
 
     window.location.href = '/userpage/' + id
   });
@@ -92,19 +92,18 @@ $(function () {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
-    var id = $(this).data("id");
+    var userid = $(this).data("userid")
+    var eventid = $(this).data("eventid")
 
-    $.ajax("/vote/" + id, {
-      type: "GET",
-      data: id
-    }).then(
-      function () {
+    //$.ajax("/vote/" + userid + "/" + eventid, {
+    //  type: "GET",
+    //  data: id
+    //}).then(
+    //  function () {
         console.log("Taking user to vote page...");
-        window.location.href = '/vote/' + id
-
-
-      }
-    );
+        window.location.href = '/vote/' + userid + "/" + eventid;
+    //  }
+    //);
   });
 
   $(".update-form").on("submit", function (event) {
@@ -155,6 +154,7 @@ $(function () {
         console.log("User " + userid + " is voting on event " + eventid);
         // Reload the page to get the updated list
         //location.reload();
+        window.location.href = '/userpage/' + userid
       }
     );
 
@@ -225,16 +225,16 @@ $(function () {
     var id = $("#currentUser").data("id")
     console.log(id)
 
-    $.ajax("/new_event/" + id, {
-      type: "GET",
-      data: id
-    }).then(
-      function () {
+    //$.ajax("/new_event/" + id, {
+    //  type: "GET",
+    //  data: id
+    //}).then(
+    //  function () {
         console.log("Ready to create event");
 
         window.location.href = '/new_event/' + id
-      }
-    );
+    //  }
+    //);
   });
 
 
