@@ -48,7 +48,7 @@ router.get("/userpage/:id", function (req, res) {
 
           voteString = ""
           for (var key in votes) {
-            voteString = voteString + '\n' + key + "th: " + votes[key] + " people"
+            voteString = voteString + key + ":" + votes[key] + ';'
           }
 
           thisinvitedEventArray = [currentEventTitle, currentEventID, voteString, req.params.id]

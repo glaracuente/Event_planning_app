@@ -14,7 +14,7 @@ $(function () {
 
   function renderCheckboxes() {
     console.log("render checkboxes")
-    for (var x = 0; x < 100; x++) {
+    for (var x = 0; x < 100; x++) { //NEED TO CHANGE TO REALLY KNOW THE EVENTIDS AND USE THEM
       var divname = "#date_box_div_" + x;
 
       if ($(divname).length === 0) {
@@ -37,6 +37,25 @@ $(function () {
       for (var i = 0; i < checkboxesArray.length; i++) {
         thisdiv.prepend(checkboxesArray[i])
       }
+    }
+  }
+
+  function formatDateVotes() {
+    for (var x = 0; x < 100; x++) { // AJAX CALLLLLLL!!! NEED TO CHANGE TO REALLY KNOW THE EVENTIDS AND USE THEM
+      var divtest = "#displayedVoteData_" + x;
+      console.log(x)
+      if ($(divtest).length === 0) {
+        continue;
+      }
+      console.log(x)
+
+      var votedata = $("#displayedVoteData_" + x).text()
+      var votesArray = votedata.split(';')
+      console.log(votedata)
+      votesArray.forEach(function (date) {
+        var tempDiv = $("<div>").text(date)
+        $("#displayedVoteData_" + x).append(tempDiv)
+      });
     }
   }
 
@@ -65,7 +84,7 @@ $(function () {
     }
 
     for (var key in votes) {
-      var div = $("<div>").text(key + "th: " + votes[key] + " people")
+      var div = $("<div>").text(key + ":" + votes[key])
       $("#voteResults").append(div)
     }
   }
@@ -81,7 +100,7 @@ $(function () {
     //  type: "GET"
     //}).then(
     //  function () {
-        console.log("Logging in as " + id);
+    console.log("Logging in as " + id);
     //  }
     //);
 
@@ -100,8 +119,8 @@ $(function () {
     //  data: id
     //}).then(
     //  function () {
-        console.log("Taking user to vote page...");
-        window.location.href = '/vote/' + userid + "/" + eventid;
+    console.log("Taking user to vote page...");
+    window.location.href = '/vote/' + userid + "/" + eventid;
     //  }
     //);
   });
@@ -162,7 +181,7 @@ $(function () {
   });
 
   // ==========================================================
- 
+
 
 
   $(".form-check-input:checkbox:checked").each(function () {
@@ -183,7 +202,7 @@ $(function () {
   });
 
 
-  $(".createE").on("click", function(event) {
+  $(".createE").on("click", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
@@ -194,22 +213,22 @@ $(function () {
 
 
     var newEvent = {
-      title:$("#event").val().trim(),
+      title: $("#event").val().trim(),
       from_date: $(".startDate").val().trim(),
-      to_date:$(".endDate").val().trim(),
-      invites:[]
+      to_date: $(".endDate").val().trim(),
+      invites: []
     };
 
 
-   $(".form-check-input:checkbox:checked").each(function(){ newEvent.invites.push($(this).val()); });
-   console.log(newEvent.invites);
+    $(".form-check-input:checkbox:checked").each(function () { newEvent.invites.push($(this).val()); });
+    console.log(newEvent.invites);
 
     // Send the POST request.
-    $.ajax("/api/create_event/"+ id, {
+    $.ajax("/api/create_event/" + id, {
       type: "POST",
       data: newEvent
     }).then(
-      function() {
+      function () {
         console.log("Event created");
         // Reload the page to get the updated list
 
@@ -230,9 +249,9 @@ $(function () {
     //  data: id
     //}).then(
     //  function () {
-        console.log("Ready to create event");
+    console.log("Ready to create event");
 
-        window.location.href = '/new_event/' + id
+    window.location.href = '/new_event/' + id
     //  }
     //);
   });
@@ -255,7 +274,10 @@ $(function () {
     location.reload()
   });
 
+
+
   renderCheckboxes()     //NEED TO MAKE THIS ONLY RUN WHEN VOTE PAGE LOADS
   tallyVotes()
+  formatDateVotes()
 
 });
