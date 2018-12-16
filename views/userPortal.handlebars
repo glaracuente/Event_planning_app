@@ -1,4 +1,4 @@
-<h1 id="currentUser" data-id={{userid}}> User {{userid}}  Portal</h1><br>
+<h1 id="currentUser" data-id={{userid}}> User {{userid}} Portal</h1><br>
 
 <button id="new_event"><strong>Create Event</strong></button>
 
@@ -10,10 +10,11 @@
 
 <!-- Need home button -->
 {{#each invitedEvents}}
-<br> 
-<button class="vote_button" data-userid="{{this.[3]}}" data-eventid="{{this.[1]}}">{{this.[0]}}</button> 
+<br>
+<button class="vote_button" data-userid="{{this.[3]}}" data-eventid="{{this.[1]}}">{{this.[0]}}</button>
 <br>
 <div id="displayedVoteData_{{this.[1]}}">{{this.[2]}}</div>
+displayedVoteData_{{this.[1]}}
 <br>
 <br>
 {{/each}}

@@ -18,6 +18,7 @@ router.get("/userpage/:id", function (req, res) {
 
     var invitedEventIDs = [];
     userEvent.allEvents(function (data) {
+
       data.forEach(function (event) {
         if (event.invites.indexOf(req.params.id) !== -1) {
           invitedEventIDs.push(event.id)
@@ -26,45 +27,48 @@ router.get("/userpage/:id", function (req, res) {
 
       var counter = 0
       var invitedEventsArray = []
+      var userEventsObj;
       invitedEventIDs.forEach(function (eventID) {
         userEvent.getVotesForSingleEvent(eventID, function (votedata) {
-          if (counter === 0) {
-            var currentEventID = votedata[0].id
-            var currentEventTitle = votedata[0].title
-          }
+          if (counter < invitedEventIDs.length) {
+            var currentEventID = eventID
+            var currentEventTitle = "event" + eventID //votedata[0].title
 
-          var allDates = [];
-          votedata.forEach(function (singleUserVoteData) {
-            allDates = allDates.concat(JSON.parse(singleUserVoteData.dates))
-          });
 
-          var votes = {};
+            var allDates = [];
+            votedata.forEach(function (singleUserVoteData) {
+              allDates = allDates.concat(JSON.parse(singleUserVoteData.dates))
+            });
 
-          for (var i = 0; i < allDates.length; ++i) {
-            if (!votes[allDates[i]])
-              votes[allDates[i]] = 0;
-            ++votes[allDates[i]];
-          }
+            var votes = {};
 
-          voteString = ""
-          for (var key in votes) {
-            voteString = voteString + key + ":" + votes[key] + ';'
-          }
+            for (var i = 0; i < allDates.length; ++i) {
+              if (!votes[allDates[i]])
+                votes[allDates[i]] = 0;
+              ++votes[allDates[i]];
+            }
 
-          thisinvitedEventArray = [currentEventTitle, currentEventID, voteString, req.params.id]
-          invitedEventsArray.push(thisinvitedEventArray)
+            voteString = ""
+            for (var key in votes) {
+              voteString = voteString + key + ":" + votes[key] + ';'
+            }
 
-          var userEventsObj = {
-            myEvents: myevents,
-            userid: req.params.id,
-            invitedEvents: invitedEventsArray
-          }
-          counter++; //SUUUPER HACKY
+            thisinvitedEventArray = [currentEventTitle, currentEventID, voteString, req.params.id]
+            invitedEventsArray.push(thisinvitedEventArray)
 
-          if (counter === invitedEventIDs.length - 1) {
-            console.log(invitedEventsArray)
+            userEventsObj = {
+              myEvents: myevents,
+              userid: req.params.id,
+              invitedEvents: invitedEventsArray
+            }
 
-            res.render("userPortal", userEventsObj);
+            counter++; //SUUUPER HACKY
+
+            if (counter === invitedEventIDs.length) {
+              console.log(userEventsObj)
+
+              res.render("userPortal", userEventsObj);
+            }
           }
         });
       });
