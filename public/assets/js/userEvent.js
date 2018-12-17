@@ -184,7 +184,7 @@ $(function () {
 
 
 
-  $(".form-check-input:checkbox:checked").each(function () {
+  /*$(".form-check-input:checkbox:checked").each(function () {
     newEvent.invites.push($(this).val());
     console.log(newEvent.invites);
 
@@ -199,7 +199,7 @@ $(function () {
 
       }
     );
-  });
+  });*/
 
 
   $(".createE").on("click", function (event) {
@@ -208,32 +208,39 @@ $(function () {
 
     var id = $(".currentUser").data("id");
 
-    console.log(id);
 
-
-
-    var newEvent = {
+    var newEvent = {//NEED TO VALIDATE HERE
       title: $("#event").val().trim(),
       from_date: $(".startDate").val().trim(),
       to_date: $(".endDate").val().trim(),
       invites: []
     };
 
-
-    $(".form-check-input:checkbox:checked").each(function () { newEvent.invites.push($(this).val()); });
-    console.log(newEvent.invites);
-
-    // Send the POST request.
-    $.ajax("/api/create_event/" + id, {
-      type: "POST",
-      data: newEvent
-    }).then(
-      function () {
-        console.log("Event created");
-        // Reload the page to get the updated list
-
+    if (newEvent.from_date.indexOf("/") === -1 || newEvent.to_date.indexOf("/") === -1) {
+      alert("ERROR: A date is missing");
+    } else if (newEvent.from_date > newEvent.to_date) {
+      alert("ERROR: The dates are not in order.");
+    } else if (newEvent.title.length < 5) {
+      alert("ERROR: Event title much be at least 5 characters.");
+    } else {
+      $(".form-check-input:checkbox:checked").each(function () { newEvent.invites.push($(this).val()); });
+      if (newEvent.invites.length === 0) {
+        alert("ERROR: No one was invited");
       }
-    );
+      else {
+        // Send the POST request.
+        $.ajax("/api/create_event/" + id, {
+          type: "POST",
+          data: newEvent
+        }).then(
+          function () {
+            console.log("Event created");
+            console.log(id);
+            window.location.href = '/userpage/' + id
+          }
+        );
+      }
+    };
   });
 
   // =========================================================

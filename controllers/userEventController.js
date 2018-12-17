@@ -28,7 +28,7 @@ router.get("/userpage/:id", function (req, res) {
       var counter = 0
       var invitedEventsArray = []
       var userEventsObj;
-      
+
       invitedEventIDs.forEach(function (eventInfo) {
         userEvent.getVotesForSingleEvent(eventInfo[0], function (votedata) {
           if (counter < invitedEventIDs.length) {
@@ -88,7 +88,8 @@ router.post("/api/create_event/:id", function (req, res) {
       req.params.id, req.body.title, req.body.from_date, req.body.to_date, JSON.stringify(req.body.invites)
     ], function (result) {
       res.json({ id: result.insertId });
-    });
+    })
+
 });
 
 // ============================================================================================================================
