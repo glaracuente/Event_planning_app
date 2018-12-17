@@ -21,22 +21,25 @@ router.get("/userpage/:id", function (req, res) {
 
       data.forEach(function (event) {
         if (event.invites.indexOf(req.params.id) !== -1) {
-          invitedEventIDs.push(event.id)
+          invitedEventIDs.push([event.id, event.title])
         }
       })
 
       var counter = 0
       var invitedEventsArray = []
       var userEventsObj;
-      invitedEventIDs.forEach(function (eventID) {
-        userEvent.getVotesForSingleEvent(eventID, function (votedata) {
+      
+      invitedEventIDs.forEach(function (eventInfo) {
+        userEvent.getVotesForSingleEvent(eventInfo[0], function (votedata) {
           if (counter < invitedEventIDs.length) {
-            var currentEventID = eventID
-            var currentEventTitle = "event" + eventID //votedata[0].title
+            var currentEventID = eventInfo[0]
+            var currentEventTitle = eventInfo[1]
 
 
             var allDates = [];
             votedata.forEach(function (singleUserVoteData) {
+              //console.log("<<<<<" + singleUserVoteData.title + ">>>>>>")
+              currentEventTitle = singleUserVoteData.title
               allDates = allDates.concat(JSON.parse(singleUserVoteData.dates))
             });
 
