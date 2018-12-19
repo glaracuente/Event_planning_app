@@ -44,18 +44,26 @@ $(function () {
   function formatDateVotes() {
     for (var x = 0; x < 100; x++) { // AJAX CALLLLLLL!!! NEED TO CHANGE TO REALLY KNOW THE EVENTIDS AND USE THEM
       var divtest = "#displayedVoteData_" + x;
-      console.log(x)
+
       if ($(divtest).length === 0) {
         continue;
       }
-      console.log(x)
 
       var votedata = $("#displayedVoteData_" + x).text()
+      $("#displayedVoteData_" + x).text("")
       var votesArray = votedata.split(';')
-      console.log(votedata)
-      votesArray.forEach(function (date) {
-        var tempDiv = $("<div>").text(date)
-        $("#displayedVoteData_" + x).append(tempDiv)
+
+      votesArray.forEach(function (dateAndVotes) {
+        var date = dateAndVotes.split(":")[0]
+        var votes = dateAndVotes.split(":")[1]
+        var max = 3;
+        var progressWidth = (votes / max) * 100
+       
+        var dateDiv = $("<div>").text(date)
+        var tempDiv = $("<div>").addClass("progress")
+        var progDiv = $("<div>").addClass("progress-bar").attr("role", "progressbar").attr( "aria-aria-valuemin", "0").attr( "aria-valuemax", max).attr( "aria-valuenow", votes).attr( "style", "width: " + progressWidth + "%"); 
+        tempDiv.append(progDiv)
+        $("#displayedVoteData_" + x).append(dateDiv).append(tempDiv)
       });
     }
   }
@@ -129,7 +137,7 @@ $(function () {
   $(".update-form").on("submit", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
-    
+
     var id = $(this).data("id");
 
 
