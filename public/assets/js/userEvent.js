@@ -1,16 +1,30 @@
-// Function for calendar
-$(function () {
-  $("#datepickerS").datepicker();
-});
-
-$(function () {
-  $("#datepickerE").datepicker();
-});
-
-// ======================================================================
 
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
 $(function () {
+
+  $('#datepicker').datepicker({
+    inline: true,
+    //nextText: '&rarr;',
+    //prevText: '&larr;',
+    showOtherMonths: true,
+    //dateFormat: 'dd MM yy',
+    dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    //showOn: "button",
+    //buttonImage: "img/calendar-blue.png",
+    //buttonImageOnly: true,
+  });
+
+  $('#datepickerE').datepicker({
+    inline: true,
+    //nextText: '&rarr;',
+    //prevText: '&larr;',
+    showOtherMonths: true,
+    //dateFormat: 'dd MM yy',
+    dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    //showOn: "button",
+    //buttonImage: "img/calendar-blue.png",
+    //buttonImageOnly: true,
+  });
 
   function renderCheckboxes() {
     console.log("render checkboxes")

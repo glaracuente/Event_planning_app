@@ -1,4 +1,4 @@
-<h1 class="currentUser" data-id={{current.id}}> {{current.name}}  Portal</h1>
+<h1 class="currentUser" data-id={{current.id}}> {{current.name}} Portal</h1>
 
 
 
@@ -6,32 +6,25 @@
 <h2>Event name</h2>
 
 <div class="form-group row">
-  <label for="example-text-input" class="col-2 col-form-label"></label>
+  <label for="example-text-input"></label>
   <div class="col-10">
     <input class="form-control" type="text" id="event">
   </div><br>
 
- <h2>Dates</h2>
+  <h2>Dates</h2>
 
- <p>From: <input type="text" class="startDate" id="datepickerS"></p><br>
+
+  <p>From: <input type="text" class="startDate" id="datepicker"></p><br>
   <p>To: <input type="text" class="endDate" id="datepickerE"></p><br>
- 
-  
 
 
+  <h2>Who would you like to invite</h2>
 
-  
-
-   
-
-      <h2>Who would you like to invite</h2>
-
-      <div class="form-check">
-         {{#each others}}
+  <div class="form-check">
+    {{#each others}}
     {{> users/invites}}
-  {{/each}}
-  
+    {{/each}}
+  </div>
 </div>
 
-      <button type="submit" class="createE">Create event</button>
-
+<button type="submit" class="createE">Create event</button>
