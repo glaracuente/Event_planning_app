@@ -49,13 +49,13 @@ var userEvent = {
       cb(res);
     });
   },
-  update: function(newTitle, condition, cb) {
-    orm.update("events", newTitle, condition, function(res) {
+  update: function(newTitle, eventID, cb) {
+    orm.update("events", newTitle, eventID, function(res) {
       cb(res);
     });
   },
-  updateEvent: function(newData, condition, cb) {
-    orm.updateEvent(newData, condition, function(res) {
+  updateEvent: function(newTitle, eventId, cb) {
+    orm.updateEvent(newTitle, eventId, function(res) {
       cb(res);
     });
   },

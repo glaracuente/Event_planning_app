@@ -21,16 +21,17 @@ $(function () {
         continue;
       }
       var thisdiv = $(divname)
-      var from = thisdiv.data('fromdate').split('/')[1]
-      var to = thisdiv.data('todate').split('/')[1]
+      var fromDay = parseInt(parseInt(thisdiv.data('fromdate').split('/').slice(1, 2)))
+      var toDay = parseInt(parseInt(thisdiv.data('todate').split('/').slice(1, 2)))
+      var month = parseInt(thisdiv.data('fromdate').split('/').slice(0, 1))
 
-      from = parseInt(from)
-      to = parseInt(to)
+      from = parseInt(fromDay)
+      to = parseInt(toDay)
 
       var checkboxesArray = [];
       for (var i = from; i <= to; i++) {
         var checkbox = $("<div>")
-        checkbox.html('<input type="checkbox" name="vote" value="' + i + '">' + i)
+        checkbox.html('<input type="checkbox" name="vote" value="' + month + '.' + i + '">' + month + '.' + i)
         checkboxesArray.push(checkbox)
       }
 
@@ -128,23 +129,29 @@ $(function () {
   $(".update-form").on("submit", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
-
+    
     var id = $(this).data("id");
 
-    var newtitle = {
-      title: $("#newTitle").val().trim(),
-    };
 
-    $.ajax("/event/" + id, {
-      type: "PUT",
-      data: newtitle
-    }).then(
-      function () {
-        console.log("updating event " + id);
-        // Reload the page to get the updated list
-        location.reload();
-      }
-    );
+    var newTitle = {
+      title: $("#newTitle_" + id).val().trim().toString(),
+    }
+
+    if (newTitle.title.length < 5) {
+      alert("ERROR: Event title much be at least 5 characters.");
+    }
+    else {
+      $.ajax("/event/" + id, {
+        type: "PUT",
+        data: newTitle
+      }).then(
+        function () {
+          console.log("updating event " + id);
+          // Reload the page to get the updated list
+          location.reload();
+        }
+      );
+    }
   });
 
   // ==========================================================

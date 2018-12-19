@@ -137,12 +137,12 @@ var orm = {
       cb(result);
     });
   },
-  update: function(table, objColVals, condition, cb) {
+  update: function(table, objColVals, eventID, cb) {
     var queryString = "UPDATE " + table;
-    queryString += " SET "; //title=
+    queryString += " SET "; 
     queryString += objToSql(objColVals);
     queryString += " WHERE id=";
-    queryString += condition;
+    queryString += eventID;
 
     console.log(queryString);
     connection.query(queryString, function(err, result) {
@@ -154,12 +154,12 @@ var orm = {
     });
   },
   // An example of objColVals would be {name: panther, sleepy: true}
-  updateEvent: function (objColVals, condition, cb) {
+  updateEvent: function (newTitle, eventId, cb) {
     var queryString = "UPDATE events";
-    queryString += " SET "; //title=
-    queryString += objToSql(objColVals);
+    queryString += " SET title="; 
+    queryString += "'" + newTitle + "'";
     queryString += " WHERE id=";
-    queryString += condition;
+    queryString += eventId;
 
     console.log(queryString);
     connection.query(queryString, function (err, result) {
