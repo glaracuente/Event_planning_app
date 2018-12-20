@@ -1,30 +1,29 @@
 
+
+$(document).ready(function() {
+  
+  handleLoginSugnup("form.login", "/api/login")
+
+});
+
+$(document).ready(function() {
+    handleLoginSugnup("form.signup", "/api/signup")
+  });
+
+
+  // Function for calendar
+$(function () {
+  $("#datepickerS").datepicker();
+});
+
+$(function () {
+  $("#datepickerE").datepicker();
+});
+
+// ======================================================================
+
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
 $(function () {
-
-  $('#datepicker').datepicker({
-    inline: true,
-    //nextText: '&rarr;',
-    //prevText: '&larr;',
-    showOtherMonths: true,
-    //dateFormat: 'dd MM yy',
-    dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    //showOn: "button",
-    //buttonImage: "img/calendar-blue.png",
-    //buttonImageOnly: true,
-  });
-
-  $('#datepickerE').datepicker({
-    inline: true,
-    //nextText: '&rarr;',
-    //prevText: '&larr;',
-    showOtherMonths: true,
-    //dateFormat: 'dd MM yy',
-    dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    //showOn: "button",
-    //buttonImage: "img/calendar-blue.png",
-    //buttonImageOnly: true,
-  });
 
   function renderCheckboxes() {
     console.log("render checkboxes")
@@ -58,26 +57,18 @@ $(function () {
   function formatDateVotes() {
     for (var x = 0; x < 100; x++) { // AJAX CALLLLLLL!!! NEED TO CHANGE TO REALLY KNOW THE EVENTIDS AND USE THEM
       var divtest = "#displayedVoteData_" + x;
-
+      console.log(x)
       if ($(divtest).length === 0) {
         continue;
       }
+      console.log(x)
 
       var votedata = $("#displayedVoteData_" + x).text()
-      $("#displayedVoteData_" + x).text("")
       var votesArray = votedata.split(';')
-
-      votesArray.forEach(function (dateAndVotes) {
-        var date = dateAndVotes.split(":")[0]
-        var votes = dateAndVotes.split(":")[1]
-        var max = 3;
-        var progressWidth = (votes / max) * 100
-       
-        var dateDiv = $("<div>").text(date)
-        var tempDiv = $("<div>").addClass("progress")
-        var progDiv = $("<div>").addClass("progress-bar").attr("role", "progressbar").attr( "aria-aria-valuemin", "0").attr( "aria-valuemax", max).attr( "aria-valuenow", votes).attr( "style", "width: " + progressWidth + "%"); 
-        tempDiv.append(progDiv)
-        $("#displayedVoteData_" + x).append(dateDiv).append(tempDiv)
+      console.log(votedata)
+      votesArray.forEach(function (date) {
+        var tempDiv = $("<div>").text(date)
+        $("#displayedVoteData_" + x).append(tempDiv)
       });
     }
   }
@@ -115,20 +106,7 @@ $(function () {
 
 
 
-  $(document).on("click", ".login", function (event) {
-    console.log("login clicked")
-    var id = $(this).data("id");
-
-    //$.ajax("/userpage/" + id, {
-    //  type: "GET"
-    //}).then(
-    //  function () {
-    console.log("Logging in as " + id);
-    //  }
-    //);
-
-    window.location.href = '/userpage/' + id
-  });
+  
 
   $(document).on("click", ".vote_button", function (event) {
     // Make sure to preventDefault on a submit event.
@@ -151,7 +129,7 @@ $(function () {
   $(".update-form").on("submit", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
-
+    
     var id = $(this).data("id");
 
 
@@ -202,7 +180,7 @@ $(function () {
         console.log("User " + userid + " is voting on event " + eventid);
         // Reload the page to get the updated list
         //location.reload();
-        window.location.href = '/userpage/' + userid
+        window.location.href = '/members/'
       }
     );
 
@@ -258,14 +236,14 @@ $(function () {
       }
       else {
         // Send the POST request.
-        $.ajax("/api/create_event/" + id, {
+        $.ajax("/api/create_event", {
           type: "POST",
           data: newEvent
         }).then(
           function () {
             console.log("Event created");
             console.log(id);
-            window.location.href = '/userpage/' + id
+            window.location.href = '/members'
           }
         );
       }
@@ -287,7 +265,7 @@ $(function () {
     //  function () {
     console.log("Ready to create event");
 
-    window.location.href = '/new_event/' + id
+    window.location.href = '/new_event'
     //  }
     //);
   });
@@ -317,3 +295,6 @@ $(function () {
   formatDateVotes()
 
 });
+
+
+

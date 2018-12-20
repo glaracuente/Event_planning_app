@@ -1,7 +1,17 @@
-// Import the ORM to create functions that will interact with the database.
 var orm = require("../config/orm.js");
 
 var userEvent = {
+  selectWhere: function (cols, vals, cb) {
+    orm.selectWhere("users", cols, vals, function(err, rows){
+      cb(err, rows)
+    })
+  },
+  // The variables cols and vals are arrays.
+  createUser: function (cols_vals, cb) {
+    orm.createUser("users", cols_vals, function(err, rows){
+      cb(err, rows)
+    })
+  },
   allUsers: function(cb) {
     orm.all("users", function(res) {
       cb(res);
@@ -69,5 +79,5 @@ var userEvent = {
   },
 };
 
-// Export the database functions for the controller.
+// Export the database functions for the controller (catsController.js).
 module.exports = userEvent;
