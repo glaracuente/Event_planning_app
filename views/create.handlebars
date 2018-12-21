@@ -1,30 +1,36 @@
-<h1 class="currentUser" data-id={{current.id}}> {{current.name}} Portal</h1>
+<h1 class="currentUser" data-id={{current.id}}></h1>
+<div class="row">
+  <div class="col-2"></div>
+  <div class="col-8">
+    <div class="form-group">
+      <h1>Event name</h1>
+      <label for="example-text-input"></label>
+      <input class="form-control" type="text" id="event">
+    </div>
+  </div>
+  <div class="col-2"></div>
+</div>
 
 
+<h2>Dates</h2><br>
 
+<div class="row">
+  <div class="col-6">
+    <p>From: <input type="text" class="startDate" id="datepickerS"></p><br>
+  </div>
+  <div class="col-6">
+    <p>To: <input type="text" class="endDate" id="datepickerE"></p><br>
+  </div>
+</div>
 
-<h2>Event name</h2>
-
-<div class="form-group row">
-  <label for="example-text-input"></label>
-  <div class="col-10">
-    <input class="form-control" type="text" id="event">
-  </div><br>
-
-  <h2>Dates</h2>
-
-
-  <p>From: <input type="text" class="startDate" id="datepickerS"></p><br>
-  <p>To: <input type="text" class="endDate" id="datepickerE"></p><br>
-
-
+<div>
   <h2>Who would you like to invite</h2>
-  
   <div class="form-check">
     {{#each others}}
     {{> users/invites}}
     {{/each}}
   </div>
 </div>
-
+<br>
+<br>
 <button type="submit" class="createE btn btn-default">Create event</button>
