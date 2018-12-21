@@ -225,6 +225,7 @@ $(function () {
 
 
     var newEvent = {//NEED TO VALIDATE HERE
+      id: id,
       title: $("#event").val().trim(),
       from_date: $(".startDate").val().trim(),
       to_date: $(".endDate").val().trim(),

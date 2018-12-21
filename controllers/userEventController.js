@@ -160,7 +160,7 @@ module.exports = function (app) {
     userEvent.create([
       "userid", "title", "from_date", "to_date", "invites"
     ], [
-        1, req.body.title, req.body.from_date, req.body.to_date, JSON.stringify(req.body.invites)
+      req.body.id, req.body.title, req.body.from_date, req.body.to_date, JSON.stringify(req.body.invites)
       ], function (result) {
         res.json({ id: result.insertId });
       })
