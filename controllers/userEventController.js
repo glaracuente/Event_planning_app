@@ -180,12 +180,15 @@ module.exports = function (app) {
       for (i = 0; i < data.length; i++) {
   
         if (data[i].id === userIdInt) {
+          var othersName = data[i].username.split('@')[0]
+          data[i].username = othersName
           users.currentUser.push(data[i])
-  
-  
+
         }
   
         else {
+          var othersName = data[i].username.split('@')[0]
+          data[i].username = othersName
           users.others.push(data[i]);
         }
       }
