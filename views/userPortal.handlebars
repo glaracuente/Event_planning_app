@@ -1,4 +1,4 @@
-<h1 id="currentUser" data-id={{userid}}> User {{userid}} Portal</h1><br>
+<h1 id="currentUser" data-id={{userid}}>{{username}}</h1><br>
 
 <button id="new_event" class="btn btn-default btn-lg"><strong>Create Event</strong></button>
 
@@ -12,7 +12,7 @@
   </button>
 </p>
 <div class="collapse" id="invited">
-  <div class="card card-body">
+  <div class="test" >
     {{#each invitedEvents}}
     <br>
     <button class="vote_button btn btn-default" data-userid="{{this.[3]}}" data-eventid="{{this.[1]}}">{{this.[0]}}</button>
@@ -33,7 +33,7 @@
   </button>
 </p>
 <div class="collapse" id="myevents">
-  <div class="card card-body">
+  <div class="test">
     {{#each myEvents}}
   {{> users/my-events}}
   {{/each}}

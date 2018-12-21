@@ -1,6 +1,5 @@
-<h2>Vote on Event {{event.id}}: user {{userid}}</h2>
+<h2>Vote on {{event.title}}</h2>
 
 <form class="submit-vote" data-eventid="{{event.id}}" data-userid="{{userid}}" data-fromdate="{{event.from_date}}" data-todate="{{event.to_date}}" id="date_box_div_{{event.id}}">
-	{{event.title}}
-	<input type="submit" value="{{event.title}} Vote">
+	<button type="submit" class="btn btn-default">Make your move
 </form>

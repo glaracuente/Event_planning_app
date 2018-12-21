@@ -9,3 +9,16 @@ body {
   button {
       background-color: #F6C5DB;
   }
+
+.test{
+    background-color: rgba(173, 165, 186, .5);
+    border-radius: 25px;
+    font-weight: bolder;
+}
+
+input[type="text"], textarea {
+
+    background-color : #d1d1d1; 
+    border-radius: 25px;
+  
+  }
