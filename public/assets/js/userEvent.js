@@ -180,7 +180,7 @@ $(function () {
         console.log("User " + userid + " is voting on event " + eventid);
         // Reload the page to get the updated list
         //location.reload();
-        window.location.href = '/members/'
+        window.location.href = '/members'
       }
     );
 
@@ -191,7 +191,7 @@ $(function () {
 
 
 
-  /*$(".form-check-input:checkbox:checked").each(function () {
+  $(".form-check-input:checkbox:checked").each(function () {
     newEvent.invites.push($(this).val());
     console.log(newEvent.invites);
 
@@ -206,7 +206,7 @@ $(function () {
 
       }
     );
-  });*/
+  });
 
 
   $(".createE").on("click", function (event) {
