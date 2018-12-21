@@ -1,21 +1,21 @@
-<h1 id="currentUser" data-id={{userid}}> User {{userid}} Portal</h1><br>
+<h1 id="currentUser" data-id={{userid}}>{{username}}</h1><br>
 
-<button id="new_event" class="btn btn-primary btn-lg"><strong>Create Event</strong></button>
+<button id="new_event" class="btn btn-default btn-lg"><strong>Create Event</strong></button>
 
 <br>
 <br>
 
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#invited" aria-expanded="false"
+  <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#invited" aria-expanded="false"
     aria-controls="invited">
     Events You've Been Invited To
   </button>
 </p>
 <div class="collapse" id="invited">
-  <div class="card card-body">
+  <div class="test" >
     {{#each invitedEvents}}
     <br>
-    <button class="vote_button btn btn-outline-success" data-userid="{{this.[3]}}" data-eventid="{{this.[1]}}">{{this.[0]}}</button>
+    <button class="vote_button btn btn-default" data-userid="{{this.[3]}}" data-eventid="{{this.[1]}}">{{this.[0]}}</button>
     <br>
     <div id="displayedVoteData_{{this.[1]}}">{{this.[2]}}</div>
     <br>
@@ -27,13 +27,13 @@
 
 
 <p>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#myevents" aria-expanded="false"
+  <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#myevents" aria-expanded="false"
     aria-controls="myevents">
     Events You Created
   </button>
 </p>
 <div class="collapse" id="myevents">
-  <div class="card card-body">
+  <div class="test">
     {{#each myEvents}}
   {{> users/my-events}}
   {{/each}}

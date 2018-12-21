@@ -81,6 +81,7 @@ module.exports = function (app) {
   // If a user who is not logged in tries to access this route they will be redirected to the signup page
   app.get("/members", isAuthenticated, function(req, res) {
     userEvent.selectWhere("username",userInfo.email,function(err,rows){
+      var name = rows[0].username.split("@");
       userEvent.getUsersEvents(rows[0].id, function (myevents) {
 
         var invitedEventIDs = [];
@@ -129,7 +130,8 @@ module.exports = function (app) {
                 userEventsObj = {
                   myEvents: myevents,
                   userid: rows[0].id,
-                  invitedEvents: invitedEventsArray
+                  invitedEvents: invitedEventsArray,
+                  username:name[0]
                 }
     
                 counter++; //SUUUPER HACKY
@@ -168,6 +170,7 @@ module.exports = function (app) {
   // ============================================================================================================================
   app.get("/new_event", function (req, res) {
     userEvent.allUsers(function (data) {
+
       var userIdStr = userInfo;
       var userIdInt = parseInt(userIdStr, 10);
   
@@ -178,14 +181,15 @@ module.exports = function (app) {
       }
   
       for (i = 0; i < data.length; i++) {
-  
+
         if (data[i].id === userIdInt) {
+          var othersName = data[i].username.split('@')[0]
+          data[i].username = othersName
           users.currentUser.push(data[i])
-  
-  
         }
-  
         else {
+          var othersName = data[i].username.split("@")[0]
+          data[i].username = othersName
           users.others.push(data[i]);
         }
       }
@@ -195,6 +199,7 @@ module.exports = function (app) {
         others: users.others
   
       }
+    
   
   
       res.render("create", pasthis);
