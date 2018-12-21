@@ -168,40 +168,38 @@ module.exports = function (app) {
   });
   
   // ============================================================================================================================
-  app.get("/new_event", function (req, res) {
+  app.get("/new_event/:id", function (req, res) {
     userEvent.allUsers(function (data) {
-
-      var userIdStr = userInfo;
+      var userIdStr = req.params.id;
       var userIdInt = parseInt(userIdStr, 10);
-  
+ 
       var users = {
         currentUser: [],
         others: []
-  
+ 
       }
-  
+ 
       for (i = 0; i < data.length; i++) {
-
+ 
         if (data[i].id === userIdInt) {
-          var othersName = data[i].username.split('@')[0]
-          data[i].username = othersName
           users.currentUser.push(data[i])
+ 
         }
+ 
         else {
           var othersName = data[i].username.split("@")[0]
           data[i].username = othersName
           users.others.push(data[i]);
         }
       }
-  
+ 
       var pasthis = {
         current: users.currentUser[0],
         others: users.others
-  
+ 
       }
-    
-  
-  
+ 
+ 
       res.render("create", pasthis);
     });
   });

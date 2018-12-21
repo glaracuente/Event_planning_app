@@ -243,6 +243,7 @@ $(function () {
         alert("ERROR: No one was invited");
       }
       else {
+        newEvent.invites.push(id)
         // Send the POST request.
         $.ajax("/api/create_event", {
           type: "POST",
@@ -260,22 +261,16 @@ $(function () {
 
   // =========================================================
   $("#new_event").on("click", function (event) {
-    // Make sure to preventDefault on a submit event.
     event.preventDefault();
-
+ 
     var id = $("#currentUser").data("id")
     console.log(id)
-
-    //$.ajax("/new_event/" + id, {
-    //  type: "GET",
-    //  data: id
-    //}).then(
-    //  function () {
+ 
+ 
     console.log("Ready to create event");
-
-    window.location.href = '/new_event'
-    //  }
-    //);
+ 
+    window.location.href = '/new_event/' + id
+ 
   });
 
 
