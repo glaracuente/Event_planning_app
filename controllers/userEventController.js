@@ -137,8 +137,6 @@ module.exports = function (app) {
                 counter++; //SUUUPER HACKY
     
                 if (counter === invitedEventIDs.length) {
-                  console.log(userEventsObj)
-    
                   res.render("userPortal", userEventsObj);
                 }
               }

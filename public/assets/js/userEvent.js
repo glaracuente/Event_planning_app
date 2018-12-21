@@ -1,17 +1,17 @@
 
 
-$(document).ready(function() {
-  
+$(document).ready(function () {
+
   handleLoginSugnup("form.login", "/api/login")
 
 });
 
-$(document).ready(function() {
-    handleLoginSugnup("form.signup", "/api/signup")
-  });
+$(document).ready(function () {
+  handleLoginSugnup("form.signup", "/api/signup")
+});
 
 
-  // Function for calendar
+// Function for calendar
 $(function () {
   $("#datepickerS").datepicker();
 });
@@ -67,16 +67,18 @@ $(function () {
       var votesArray = votedata.split(';')
 
       votesArray.forEach(function (dateAndVotes) {
-        var date = dateAndVotes.split(":")[0]
-        var votes = dateAndVotes.split(":")[1]
-        var max = 3;
-        var progressWidth = (votes / max) * 100
-       
-        var dateDiv = $("<div>").text(date)
-        var tempDiv = $("<div>").addClass("progress")
-        var progDiv = $("<div>").addClass("progress-bar").attr("role", "progressbar").attr( "aria-aria-valuemin", "0").attr( "aria-valuemax", max).attr( "aria-valuenow", votes).attr( "style", "width: " + progressWidth + "%"); 
-        tempDiv.append(progDiv)
-        $("#displayedVoteData_" + x).append(dateDiv).append(tempDiv)
+        if (dateAndVotes.length !== 0) {
+          var date = dateAndVotes.split(":")[0]
+          var votes = dateAndVotes.split(":")[1]
+          var max = 3;
+          var progressWidth = (votes / max) * 100
+
+          var dateDiv = $("<div>").text(date)
+          var tempDiv = $("<div>").addClass("progress")
+          var progDiv = $("<div>").addClass("progress-bar").attr("role", "progressbar").attr("aria-aria-valuemin", "0").attr("aria-valuemax", max).attr("aria-valuenow", votes).attr("style", "width: " + progressWidth + "%");
+          tempDiv.append(progDiv)
+          $("#displayedVoteData_" + x).append(dateDiv).append(tempDiv)
+        }
       });
     }
   }
@@ -114,7 +116,7 @@ $(function () {
 
 
 
-  
+
 
   $(document).on("click", ".vote_button", function (event) {
     // Make sure to preventDefault on a submit event.
@@ -137,7 +139,7 @@ $(function () {
   $(".update-form").on("submit", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
-    
+
     var id = $(this).data("id");
 
 
@@ -263,15 +265,15 @@ $(function () {
   // =========================================================
   $("#new_event").on("click", function (event) {
     event.preventDefault();
- 
+
     var id = $("#currentUser").data("id")
     console.log(id)
- 
- 
+
+
     console.log("Ready to create event");
- 
+
     window.location.href = '/new_event/' + id
- 
+
   });
 
 
@@ -307,38 +309,38 @@ function handleLoginSugnup(form, url) {
 
   // When the form is submitted, we validate there's an email and password entered
   form.on("submit", function (event) {
-      event.preventDefault();
-      $(".container").hide();
-      var userData = {
-          email: emailInput.val().trim(),
-          password: passwordInput.val().trim()
-      };
+    event.preventDefault();
+    $(".container").hide();
+    var userData = {
+      email: emailInput.val().trim(),
+      password: passwordInput.val().trim()
+    };
 
-      if (!userData.email || !userData.password) {
-          return;
-      }
+    if (!userData.email || !userData.password) {
+      return;
+    }
 
-      // If we have an email and password we run the authUser function and clear the form
-      authUser(userData.email, userData.password);
-      emailInput.val("");
-      passwordInput.val("");
+    // If we have an email and password we run the authUser function and clear the form
+    authUser(userData.email, userData.password);
+    emailInput.val("");
+    passwordInput.val("");
   });
 
   // AUTHUser does a post to the url and if successful, redirects us the the members page
   function authUser(email, password) {
-      $.post(url, {
-          email: email,
-          password: password
-      }).then(function (data) {
-          window.location.replace(data);
-          // If there's an error, log the error
-      }).catch(handleAuthErr);
+    $.post(url, {
+      email: email,
+      password: password
+    }).then(function (data) {
+      window.location.replace(data);
+      // If there's an error, log the error
+    }).catch(handleAuthErr);
   }
 
   function handleAuthErr(err) {
-      $(".container").show();
-      $("#alert .msg").text(err.responseJSON);
-      $("#alert").fadeIn(500);
+    $(".container").show();
+    $("#alert .msg").text(err.responseJSON);
+    $("#alert").fadeIn(500);
   }
 }
 
