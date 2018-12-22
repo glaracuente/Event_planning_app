@@ -5,23 +5,24 @@ It was designed using the MVC design pattern.
 
 Try it out at: https://protected-oasis-76073.herokuapp.com
 
-Technologies Used:
+**Technologies Used:**
 
-jQuery
-bootstrap
-nodeJS
-expressJS
-handlebars
-passport.js
-mysql
+* Javascript
+* jQuery
+* Bootstrap
+* nodeJS
+* expressJS
+* handlebars
+* passport.js
+* mysql
 
 
-npm packages:
+**npm packages:**
 
-bcrypt-nodejs
-express
-express-handlebars
-express-session
-mysql
-passport
-passport-local
+* bcrypt-nodejs
+* express
+* express-handlebars
+* express-session
+* mysql
+* passport
+* passport-local
